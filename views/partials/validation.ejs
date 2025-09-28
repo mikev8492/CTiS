@@ -1,0 +1,72 @@
+<script>
+
+  // =================================================
+  // DOUBE DATA ENTRY PROPERTIES
+  // =================================================  
+  var y = "";//this stores value entered to be compared on next entry. 
+  var x;
+  var verified = false;
+  function DoubleEntry(testVal) {
+    x = testVal; //testVal => contents of selected input textbox 
+    if (x === y) { //if stored value is the same as newly entered value, y is erased
+      x = y;
+      y = null;
+      verified = true;
+    } else {            //if they dont match, y becomes the newly submitted value. 
+      y = x;
+    }
+  };
+  //add keypress event listener for Enter and tab key to every input on page. Prevents form submission from Enter key. 
+  var inputs = $("input[type=text], input[type=number]");
+  inputs.on("focus", function () {
+    (this.value != "") ? verified = true : verified = false; //checks if value is already present
+  });
+  inputs.on("focusout", function () {
+    if (verified != true) this.value = null; //prevents tabbing to next input without double entry check
+  });
+  inputs.on("keydown", function (key) {
+    if (key.which == 13) {
+      key.preventDefault();
+      DoubleEntry(this.value);
+      var currInput = inputs.get(inputs.index(this));
+      var nextInput = inputs.get(inputs.index(this) + 1);
+      if (y != null) {        //if stored value exists, the current value did not match the previous
+        this.value = null;
+        currInput.focus();  //focus will stay on current input and the value is erased
+      } else {
+        nextInput.select(); //y is null, move to next input
+        this.value = x;
+      };
+    }
+  });
+
+  // ==================================================
+  // TIME INPUT PROPERTIES
+  // ==================================================
+  // adds colon to time input fields and prevents typing letters
+  $(".timeInput").keydown(function (keyPress) {
+    if (keyPress.which > 57 && keyPress.which < 91 || keyPress.which === 32) {
+      keyPress.preventDefault();
+    }
+    else if (keyPress.which != 8 && this.value.length === 2) {
+      this.value += ":";
+    }
+  });
+  $(".timeInput").keydown
+
+  // ====================================================
+  // USER PERMISSIONS
+  // ====================================================
+
+ $(document).ready(function(){
+    var group = $("#usrGroup").text();
+     //Expose res.local object from backend to frontend by assigning value to hidden div text in the template
+    if (group == "Read-Only") {
+      $(".submitBtn").hide();
+      $(".lockBtn").hide();
+    }else if (group == "User") {
+      $(".lockBtn").hide();
+    }
+ });
+
+</script>

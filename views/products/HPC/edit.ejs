@@ -1,0 +1,474 @@
+<% include ../../partials/header %>
+
+<% if (error.length > 0) { %>
+<div class="alert alert-danger"><%= error %></div>
+<% } else if (success.length > 0) { %>
+<div class="alert alert-success"><%= success %></div>
+<% } %>
+
+<div class="container-fluid">
+<div class="row">
+    <div class="ml-4 mb-4 col-lg-6 float-left pt-3" id="lotHeader">
+    <h4 class="">Lot: <span id="lotText"><%= data.study %>-<%= data.site %>-<%= data.subj %>-<%= data.lot %></span>
+    </h4>
+    <p class=""><b>Product: </b><%= data.prodType %></p>
+    <a class="navBtn mb-2 btn btn-light" href="/products/HPC/<%= data.pk_ID %>/edit/download">Export</a>
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-lg-7">
+    <main role="main">
+        <div class="ml-4 mr-4 mb-4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+            <a class="nav-link text-secondary active" id="Macs-tab" data-toggle="tab" href="#Macs" role="tab"
+                aria-controls="Macs" aria-selected="true">MACS</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link text-secondary" id="Cryo-tab" data-toggle="tab" href="#Cryo" role="tab"
+                aria-controls="Cryo" aria-selected="false">CRYO</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade pt-2 show active" id="Macs" role="tabpanel" aria-labelledby="Macs-tab">
+            <!-- ====================MACS form=============================-->
+            <form action="/products/HPC/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <h4>Selection</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="macs_procDate">Process Date</label>
+                    <input type="date" class="form-control col-md-7" name="Macs[macs_procDate]"
+                    value="<%= data.macs_procDate %>" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="macs_procTime">Process Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[macs_procTime]"
+                    value="<%= data.macs_procTime %>" placeholder="HH:mm (24-hr)"
+                    pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="aph_date">Apheresis Receipt Date</label>
+                    <input type="date" class="form-control col-md-7" name="Macs[aph_date]" value="<%= data.aph_date %>"
+                    required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="aph_time">Apheresis Receipt Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[aph_time]"
+                    value="<%= data.aph_time %>" placeholder="HH:mm (24-hr)"
+                    pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="aph_CRTime">Apheresis Clean Room Arrival Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[aph_CRTime]"
+                    value="<%= data.aph_CRTime %>" placeholder="HH:mm (24-hr)"
+                    pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="aph_vol">Apheresis Volume</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[aph_vol]"
+                        value="<%= data.aph_vol %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="aph_TVC">Apheresis TVC</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Macs[aph_TVC]" value="<%= data.aph_TVC %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="macs_prodigyStart">Prodigy Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[macs_prodigyStart]"
+                    value="<%= data.macs_prodigyStart %>" placeholder="HH:mm (24-hr)"
+                    pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="macs_preConc">Pre-Prodigy Count</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Macs[macs_preConc]" value="<%= data.macs_preConc %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="macs_preVia">Pre-Prodigy Viability</label>
+                    <div class="input-group">
+                    <input id="viability" type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Macs[macs_preVia]" value="<%= data.macs_preVia %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="macs_preRecov">Pre-Prodigy Recovery</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_preRecov]"
+                        value="<%= data.macs_preRecov %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="macs_prodigyEnd">Prodigy End Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[macs_prodigyEnd]"
+                    value="<%= data.macs_prodigyEnd %>" placeholder="HH:mm (24-hr)"
+                    pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="macs_postVol">Post-Prodigy Volume</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_postVol]"
+                        value="<%= data.macs_postVol %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="macs_postConc">Post-Prodigy Count</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_postConc]"
+                        value="<%= data.macs_postConc %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="macs_postVia">Post-Prodigy Viability</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_postVia]"
+                        value="<%= data.macs_postVia %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="macs_postRecov">Post-Prodigy Recovery</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_postRecov]"
+                        value="<%= data.macs_postRecov %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <% if(data.macs_lock === null){ %>
+                <div class="form-row">
+                <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning">Save</button>
+                </div>
+                <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Macs[lock]" type="submit" value="true">LOCK</button>
+                </div>
+                </div>
+                <% } %>
+            </form>
+            <!--============ /MACS form ======================================== -->
+            </div>
+            <div class="tab-pane fade pt-2" id="Cryo" role="tabpanel" aria-labelledby="Cryo-tab">
+            <!--====================================== cryo form ============================================================ -->
+            <form action="/products/HPC/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <h4>Pre-Formulation</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="cryo_procDate">Process Date</label>
+                    <input type="date" class="form-control col-md-7" name="Cryo[cryo_procDate]"
+                    value="<%= data.cryo_procDate %>" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_procTime">Process Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Cryo[cryo_procTime]"
+                    value="<%= data.cryo_procTime %>" placeholder="HH:mm (24-hr)"
+                    pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_labelDose">Product Label Dose</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Cryo[cryo_labelDose]"
+                        value="<%= data.cryo_labelDose %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_postQCTVC">Post-QC TVC</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Cryo[cryo_postQCTVC]"
+                        value="<%= data.cryo_postQCTVC %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <h4>Concentration</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="cryo_cobeSOTotal">COBE Total Superout</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Cryo[cryo_cobeSOTotal]" value="<%= data.cryo_cobeSOTotal %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">g(mL)</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_postVol">Post-COBE Volume</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Cryo[cryo_postVol]"
+                        value="<%= data.cryo_postVol %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_preFormVol">Pre-Form Pooled Volume</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Cryo[cryo_preFormVol]"
+                        value="<%= data.cryo_preFormVol %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_preFormConc1">Pre-Form Count #1</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Cryo[cryo_preFormConc1]" value="<%= data.cryo_preFormConc1 %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_preFormVia1">Pre-Form Viability #1</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Cryo[cryo_preFormVia1]" value="<%= data.cryo_preFormVia1 %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_preFormConc2">Pre-Form Count #2</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Cryo[cryo_preFormConc2]" value="<%= data.cryo_preFormConc2 %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_preFormVia2">Pre-Form Viability #2</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Cryo[cryo_preFormVia2]" value="<%= data.cryo_preFormVia2 %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_preFormConc3">Pre-Form Count #3</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Cryo[cryo_preFormConc3]" value="<%= data.cryo_preFormConc3 %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_preFormVia3">Pre-Form Viability #3</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Cryo[cryo_preFormVia3]" value="<%= data.cryo_preFormVia3 %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_preFormConcAvg">Pre-Form Count Average</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Cryo[cryo_preFormConcAvg]" value="<%= data.cryo_preFormConcAvg %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_preFormViaAvg">Pre-Form Viability Average</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Cryo[cryo_preFormViaAvg]" value="<%= data.cryo_preFormViaAvg %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_preFormTVC">Pre-Form TVC</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Cryo[cryo_preFormTVC]"
+                        value="<%= data.cryo_preFormTVC %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <h4>Formulation</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="cryo_pelletVol">Formulation Pellet Volume</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Cryo[cryo_pelletVol]"
+                        value="<%= data.cryo_pelletVol %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_numDose">Number of Doses Available</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Cryo[cryo_numDose]"
+                        value="<%= data.cryo_numDose %>" required>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_formVol">Formulation Volume</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Cryo[cryo_formVol]"
+                        value="<%= data.cryo_formVol %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_numBags">Number of Cryobags</label>
+                    <input type="number" class="form-control col-md-3" name="Cryo[cryo_numBags]"
+                    value="<%= data.cryo_numBags %>" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_numVials">Number of Cryovials</label>
+                    <input type="number" class="form-control col-md-3" name="Cryo[cryo_numVials]"
+                    value="<%= data.cryo_numVials %>" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_CS10Vol">CS-10 Volume Added</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Cryo[cryo_CS10Vol]"
+                        value="<%= data.cryo_CS10Vol %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_CS10Time">CS-10 Addition Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Cryo[cryo_CS10Time]"
+                    value="<%= data.cryo_CS10Time %>" placeholder="HH:mm (24-hr)"
+                    pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_bagTVC">TVC per Bag</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Cryo[cryo_bagTVC]"
+                        value="<%= data.cryo_bagTVC %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_vialTVC">TVC per Vial</label>
+                    <div class="input-group">
+                    <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Cryo[cryo_vialTVC]"
+                        value="<%= data.cryo_vialTVC %>" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_endDate">Process End Date</label>
+                    <input type="date" class="form-control col-md-7" name="Cryo[cryo_endDate]"
+                    value="<%= data.cryo_endDate %>" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_CRFTime">CRF Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Cryo[cryo_CRFTime]"
+                    value="<%= data.cryo_CRFTime %>" placeholder="HH:mm (24-hr)"
+                    pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_CRFEndTime">CRF End Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Cryo[cryo_CRFEndTime]"
+                    value="<%= data.cryo_CRFEndTime %>" placeholder="HH:mm (24-hr)"
+                    pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cryo_MVETime">MVE Storage Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Cryo[cryo_MVETime]"
+                    value="<%= data.cryo_MVETime %>" placeholder="HH:mm (24-hr)"
+                    pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                </div>
+                </div>
+                <% if(data.cryo_lock === null){ %>
+                <div class="form-row">
+                <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning" disabled>Save</button>
+                </div>
+                <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Cryo[lock]" type="submit" value="true"disabled>LOCK</button>
+                </div>
+                </div>
+                <% } %>
+            </form>
+            <!--====================================== /cryo form ============================================================ -->
+            </div>
+        </div>
+        </div>
+    </main>
+    </div>
+    <div class="col-lg-5 d-none d-lg-block">
+    <div>
+        <canvas id="myChart"></canvas>
+        <% include ../../partials/charts/HPCchart %>
+    </div>
+    </div>
+</div>
+</div>
+<% include ../../partials/validation %>
+<% include ../../partials/footer %>

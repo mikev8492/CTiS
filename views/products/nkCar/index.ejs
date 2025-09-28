@@ -1,0 +1,45 @@
+<% include ../../partials/header %>
+
+<% if (error.length > 0) { %>
+  <div class="alert alert-danger"><%=error%></div>
+<% } %>
+
+
+<div class="container">
+    <!-- Search form -->
+    <div class="container float-left col-md-3 col-sm-6 mb-4">
+      <input class="form-control" type="text" placeholder="Search Lot #" id="searchInput" onkeyup="search()"
+        aria-label="Search">
+    </div>
+    <!-- /search  -->
+    <table id="searchTable" class="table table-bordered table-hover col-xs-12">
+      <thead class="thead-purple">
+        <tr>
+          <th scope="col">Lot</th>
+          <th class="d-none d-sm-table-cell" scope="col">Start Date</th>
+          <th class="d-none d-sm-table-cell" scope="col">Site</th>
+          <th class="d-none d-sm-table-cell" scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let i = 0; i < lot.length; i++) { %>
+        <tr>
+          <td><a href="/products/nkCar/<%= id[i] %>/edit" class="nav-link text-secondary"><%= lot[i] %></a></td>
+          <td class="d-none d-sm-table-cell"><%= date[i] %></td>
+          <td class="d-none d-sm-table-cell"><%= site[i] %></td>
+          <% if (lock[i] === 1) { %>
+            <td class="d-none d-sm-table-cell">Completed</td>
+          <% } else if (harvDate[i] === null){ %>
+            <td class="in-process d-none d-sm-table-cell">In-process</td>
+          <% } else { %>
+            <td class="pending d-none d-sm-table-cell">Pending Review</td>
+          <% } %>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+<% include ../../partials/search %>
+
+<% include ../../partials/footer %>

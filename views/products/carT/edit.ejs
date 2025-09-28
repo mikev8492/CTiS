@@ -1,0 +1,829 @@
+<% include ../../partials/header %>
+
+
+<!-- Flash messages. Refer to UPDATE route for carT -->
+<% if (error.length > 0) { %>
+<div class="alert alert-danger"><%= error %></div>
+<% } else if (success.length > 0) { %>
+<div class="alert alert-success"><%= success %></div>
+<% } %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="ml-4 mb-4 col-lg-6 float-left pt-3" id="lotHeader">
+      <h4 class="">Lot: <span id="lotText"><%= data.study %>-<%= data.site %>-<%= data.subj %>-<%= data.lot %></span>
+      </h4>
+      <p class=""><b>Product: </b><%= data.prodType %></p>
+      <a class="navBtn mb-2 btn btn-light" href="/products/carT/<%= data.pk_ID %>/edit/download">Export</a>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-lg-7">
+      <main role="main">
+        <div class="ml-4 mr-4 mb-4">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link text-secondary active" id="ficoll-tab" data-toggle="tab" href="#ficoll" role="tab"
+                aria-controls="ficoll" aria-selected="true">Ficoll</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" id="thaw-tab" data-toggle="tab" href="#thaw" role="tab"
+                aria-controls="thaw" aria-selected="false">THAW</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" id="feed-tab" data-toggle="tab" href="#feed" role="tab"
+                aria-controls="feed" aria-selected="false">FEED</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" id="tdx-tab" data-toggle="tab" href="#tdx" role="tab"
+                aria-controls="tdx" aria-selected="false">TDX</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" id="stop-tab" data-toggle="tab" href="#stop" role="tab"
+                aria-controls="stop" aria-selected="false">STOP</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" id="macs-tab" data-toggle="tab" href="#macs" role="tab"
+                aria-controls="macs" aria-selected="false">MACS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" id="harv-tab" data-toggle="tab" href="#harv" role="tab"
+                aria-controls="harv" aria-selected="false">HARV</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+
+            <div class="tab-pane fade pt-2 show active" id="ficoll" role="tabpanel" aria-labelledby="ficoll-tab">
+              <!-- ============================================== ficoll form ===========================================================-->
+              <form action="/products/carT/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fcl_procDate">Process Date</label>
+                    <input type="date" class="form-control col-md-6" name="Ficoll[fcl_procDate]"
+                      value="<%= data.fcl_procDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fcl_startTime">Process Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Ficoll[fcl_startTime]"
+                      value="<%= data.fcl_startTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fcl_preTVC">Pre-ficoll TVC</label>
+                    <div class="input-group">
+                      <input id="tvc" type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Ficoll[fcl_preTVC]" value="<%= data.fcl_preTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fcl_preVia">Pre-ficoll Viability</label>
+                    <div class="input-group">
+                      <input id="viability" type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Ficoll[fcl_preVia]" value="<%= data.fcl_preVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fcl_postTVC">Post-ficoll TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Ficoll[fcl_postTVC]"
+                        value="<%= data.fcl_postTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fcl_postVia">Post-ficoll Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Ficoll[fcl_postVia]"
+                        value="<%= data.fcl_postVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fcl_equip">Ficoll equipment</label>
+                    <select id="inputState" class="form-control col-md-4" name="Ficoll[fcl_equip]" required>
+                      <option selected disabled hidden><%= data.fcl_equip %></option>
+                      <option>Prodigy</option>
+                      <option>Sepax</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fcl_bags">#Bags Cryopreserved</label>
+                    <input type="number" min="0" step="1" class="form-control col-md-4" name="Ficoll[fcl_bags]"
+                      value="<%= data.fcl_bags %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fcl_cryoConc">Cryo Concentration</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Ficoll[fcl_cryoConc]"
+                        value="<%= data.fcl_cryoConc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <% if(data.fcl_lock === null){ %>
+                  <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning">Save</button>
+                  </div>
+                  <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Ficoll[fcl_lock]" type="submit" value="true">LOCK</button>
+                  </div>
+                  <% } %>
+                </div>
+
+              </form>
+              <!--===================================== /ficoll form =========================================================== -->
+            </div>
+            <div class="tab-pane fade pt-2 " id="thaw" role="tabpanel" aria-labelledby="thaw-tab">
+              <!--====================================== thaw form ============================================================ -->
+              <form action="/products/carT/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="thaw_procdate">Process Date</label>
+                    <input type="date" class="form-control col-md-6" name="Thaw[thaw_procDate]"
+                      value="<%= data.thaw_procDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="thaw_preTVC">Post-Thaw TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Thaw[thaw_preTVC]"
+                        value="<%= data.thaw_preTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="thaw_preVia">Post-Thaw Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Thaw[thaw_preVia]"
+                        value="<%= data.thaw_preVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="thaw_preRecov">Post-Thaw Recovery</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Thaw[thaw_preRecov]"
+                        value="<%= data.thaw_preRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="thaw_postTVC">Post-Wash TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Thaw[thaw_postTVC]"
+                        value="<%= data.thaw_postTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="thaw_postVia">Post-Wash Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Thaw[thaw_postVia]"
+                        value="<%= data.thaw_postVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="thaw_postRecov">Post-Wash Recovery</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Thaw[thaw_postRecov]"
+                        value="<%= data.thaw_postRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="thaw_seedTVC">Seed TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Thaw[thaw_seedTVC]"
+                        value="<%= data.thaw_seedTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <% if(data.thaw_lock === null){ %>
+                  <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning">Save</button>
+                  </div>
+                  <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Thaw[thaw_lock]" type="submit" value="true">LOCK</button>
+                  </div>
+                  <% } %>
+                </div>
+              </form>
+              <!--====================================== /thaw form ============================================================ -->
+            </div>
+            <div class="tab-pane fade pt-2" id="feed" role="tabpanel" aria-labelledby="feed-tab">
+              <!--====================================== feed form ============================================================ -->
+              <form action="/products/carT/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fd_procDate">Process Date</label>
+                    <div class="input-group">
+                      <input type="date" class="form-control col-md-6" name="Feed[fd_procDate]"
+                        value="<%= data.fd_procDate %>" required>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_TVC">TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Feed[fd_TVC]"
+                        value="<%= data.fd_TVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_Via">Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Feed[fd_Via]"
+                        value="<%= data.fd_Via %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="thaw_fd_gr">Expansion</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Feed[thaw_fd_gr]"
+                        value="<%= data.thaw_fd_gr %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <% if(data.fd_lock === null){ %>
+                  <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning">Save</button>
+                  </div>
+                  <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Feed[fd_lock]" type="submit" value="true">LOCK</button>
+                  </div>
+                  <% } %>
+                </div>
+              </form>
+              <!--====================================== /feed form ============================================================ -->
+            </div>
+            <div class="tab-pane fade pt-2" id="tdx" role="tabpanel" aria-labelledby="tdx-tab">
+              <!--====================================== tdx form ============================================================ -->
+              <form action="/products/carT/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="tdx_initdate">Process Date</label>
+                    <input type="date" class="form-control col-md-6" name="Tdx[tdx_initdate]"
+                      value="<%= data.tdx_initdate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_preTVC">Pre-TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_preTVC]"
+                        value="<%= data.tdx_preTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_preVia">Pre-Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_preVia]"
+                        value="<%= data.tdx_preVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_tdx_gr">Feed - TDX Expansion</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[fd_tdx_gr]"
+                        value="<%= data.fd_tdx_gr %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="thaw_tdx_gr">Thaw - TDX Expansion</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[thaw_tdx_gr]"
+                        value="<%= data.thaw_tdx_gr %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_postTVC">Post-TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_postTVC]"
+                        value="<%= data.tdx_postTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_postVia">Post-Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_postVia]"
+                        value="<%= data.tdx_postVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_postRecov">Post-Recovery</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_postRecov]"
+                        value="<%= data.tdx_postRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_bag">TDX Bag type</label>
+                    <select name="Tdx[tdx_bag]"  class="form-control col-md-6" required>
+                      <option selected disabled hidden><%= data.tdx_bag %></option>
+                      <option>118-AC</option>
+                      <option>290-AC</option>
+                      <option>750-AC</option>
+                      <option>750-AC/290-AC</option>
+                      <option>750-AC/750-AC</option>
+                      <option>118-AC(3x)</option>
+                      <option>750-AC/118-AC</option>
+                      <option>290-AC/290-AC</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_numbag"># of Bag(s)</label>
+                    <input type="number" class="form-control col-md-4" name="Tdx[tdx_numbag]"
+                      value="<%= data.tdx_numbag %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_vlot">Virus Lot</label>
+                    <select name="Tdx[tdx_vlot]"  class="form-control col-md-6" required>
+                      <option selected disabled hidden><%= data.tdx_vlot %></option>
+                      <option>RETRO 1111</option>
+                      <option>RETRO 0123</option>
+                      <option>RETRO 9510</option>
+                      <option>LENTI 1564</option>
+                      <option>LENTI 9842</option>
+                      <option>LENTI 0135</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_moi">MOI</label>
+                    <input type="text" class="form-control col-md-4" name="Tdx[tdx_moi]" value="<%= data.tdx_moi %>"
+                      required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_seedTVC">TDX Seed</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_seedTVC]"
+                        value="<%= data.tdx_seedTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_cellPerc">Cell Percent Used</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_cellPerc]"
+                        value="<%= data.tdx_cellPerc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_inittime">Initiation Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Tdx[tdx_inittime]"
+                      value="<%= data.tdx_inittime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_seedVol">TDX Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_seedVol]"
+                        value="<%= data.tdx_seedVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <% if(data.tdx_lock === null){ %>
+                  <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning">Save</button>
+                  </div>
+                  <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Tdx[tdx_lock]" type="submit" value="true">LOCK</button>
+                  </div>
+                  <% } %>
+                </div>
+              </form>
+              <!--====================================== /tdx form ============================================================ -->
+            </div>
+            <div class="tab-pane fade pt-2" id="stop" role="tabpanel" aria-labelledby="stop-tab">
+              <!--====================================== stop form ============================================================ -->
+              <form action="/products/carT/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="stop_procDate">Process Date</label>
+                    <input type="date" class="form-control col-md-6" name="Stop[stop_procDate]"
+                      value="<%= data.stop_procDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_stop_dur">TDX - STOP Duration</label>
+                    <input  pattern="([0-9]{1}[0-9]{1}):[0-5]{1}[0-9]{1}" maxlength="5"
+                      placeholder="HH:mm (24-hr)" type="text" class="timeInput form-control col-md-6" name="Stop[tdx_stop_dur]"
+                      value="<%= data.tdx_stop_dur %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_preTVC">Pre Conc. TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_preTVC]"
+                        value="<%= data.stop_preTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_preVia">Pre Conc. Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_preVia]"
+                        value="<%= data.stop_preVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_stop_gr">TDX - STOP Growth</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[tdx_stop_gr]"
+                        value="<%= data.tdx_stop_gr %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_postTVC">Post Conc. TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_postTVC]"
+                        value="<%= data.stop_postTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_postVia">Post Conc. Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_postVia]"
+                        value="<%= data.stop_postVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_postRecov">Post Conc. Recovery</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_postRecov]"
+                        value="<%= data.stop_postRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_postVol">STOP Culture Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_postVol]"
+                        value="<%= data.stop_postVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_seedDens">Seed Density</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_seedDens]"
+                        value="<%= data.stop_seedDens %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <% if(data.stop_lock === null){ %>
+                  <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning">Save</button>
+                  </div>
+                  <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Stop[stop_lock]" type="submit" value="true">LOCK</button>
+                  </div>
+                  <% } %>
+                </div>
+              </form>
+              <!--====================================== /stop form ============================================================ -->
+            </div>
+            <div class="tab-pane fade pt-2" id="macs" role="tabpanel" aria-labelledby="macs-tab">
+              <!--====================================== macs form ============================================================ -->
+              <form action="/products/carT/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="macs_procDate">Process Date</label>
+                    <input type="date" class="form-control col-md-6" name="Macs[macs_procDate]"
+                      value="<%= data.macs_procDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_macs_dur">TDX - MACS Duration</label>
+                    <input  pattern="([0-9]{1}[0-9]{1}):[0-5]{1}[0-9]{1}" maxlength="5"
+                      placeholder="HH:mm (24-hr)" type="text" class="timeInput form-control col-md-6" name="Macs[tdx_macs_dur]" 
+                      value="<%= data.tdx_macs_dur %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_preTVC">Pre-TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_preTVC]"
+                        value="<%= data.macs_preTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_preVia">Pre-Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_preVia]"
+                        value="<%= data.macs_preVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_macs_gr">STOP - MACS Expansion</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[stop_macs_gr]"
+                        value="<%= data.stop_macs_gr %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_postTVC">Post-TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_postTVC]"
+                        value="<%= data.macs_postTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_postVia">Post-Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_postVia]"
+                        value="<%= data.macs_postVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_postRecov">Post-Recovery</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_postRecov]"
+                        value="<%= data.macs_postRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_postVol">MACS Recovery Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_postVol]"
+                        value="<%= data.macs_postVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_seedTVC">Seed TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_seedTVC]"
+                        value="<%= data.macs_seedTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_seedVol">Seed Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_seedVol]"
+                        value="<%= data.macs_seedVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_seedBag">Culture Bag</label>
+                    <select  class="form-control col-md-4" name="Macs[macs_seedBag]" required>
+                      <option selected><%= data.macs_seedBag %></option>
+                      <option>190-C</option>
+                      <option>290-C</option>
+                      <option>750-C</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <% if(data.macs_lock === null){ %>
+                  <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning">Save</button>
+                  </div>
+                  <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Macs[macs_lock]" type="submit" value="true">LOCK</button>
+                  </div>
+                  <% } %>
+                </div>
+              </form>
+              <!--====================================== /macs form ============================================================ -->
+            </div>
+            <div class="tab-pane fade pt-2" id="harv" role="tabpanel" aria-labelledby="harv-tab">
+              <!--====================================== harv form ============================================================ -->
+              <form action="/products/carT/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="harv_procDate">Process Date</label>
+                    <input type="date" class="form-control col-md-6" name="Harv[harv_procDate]"
+                      value="<%= data.harv_procDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_harv_dur">TDX - HARV Duration</label>
+                    <input  maxlength="3"
+                      placeholder="Hours" type="number" class="form-control col-md-6"
+                      name="Harv[tdx_harv_dur]" value="<%= data.tdx_harv_dur %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_harv_dur">MACS - HARV Duration</label>
+                    <input  pattern="([0-9]{1}[0-9]{1}):[0-5]{1}[0-9]{1}" maxlength="5"
+                      placeholder="HH:mm" type="text" class="timeInput form-control col-md-6"
+                      name="Harv[macs_harv_dur]" value="<%= data.macs_harv_dur %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preTVC">Pre-TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_preTVC]"
+                        value="<%= data.harv_preTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preVia">Pre-Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_preVia]"
+                        value="<%= data.harv_preVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_harv_gr">MACS - HARV Growth</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[macs_harv_gr]"
+                        value="<%= data.macs_harv_gr %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_postTVC">Post-TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_postTVC]"
+                        value="<%= data.harv_postTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_postVia">Post-Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_postVia]"
+                        value="<%= data.harv_postVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_postRecov">Post-Recovery</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_postRecov]"
+                        value="<%= data.harv_postRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_bags"># of Bags</label>
+                    <input type="number" class="form-control col-md-4" name="Harv[harv_bags]"
+                      value="<%= data.harv_bags %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_numdose"># of Doses</label>
+                    <input type="number" class="form-control col-md-4" name="Harv[harv_numdose]"
+                      value="<%= data.harv_numdose %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_vials"># of Vials</label>
+                    <input type="number" class="form-control col-md-4" name="Harv[harv_vials]"
+                      value="<%= data.harv_vials %>" required>
+                  </div>
+                </div>
+                <div class="form-row submissionBtns">
+                  <% if(data.harv_lock === null){ %>
+                    <div class="submitBtn col-md-6 col-6">
+                      <button type="submit" class=" btn btn-warning" disabled>Save</button>
+                    </div>
+                    <div class="lockBtn col-md-6 col-6">
+                      <button class=" btn btn-danger" name="Harv[harv_lock]" type="submit" value="true" disabled>LOCK</button>
+                    </div>
+                  <% } %>
+                </div>
+              </form>
+              <!--====================================== /harv form ============================================================ -->
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <div class="col-lg-5 d-none d-lg-block">
+      <div>
+        <canvas id="myChart"></canvas>
+        <% include ../../partials/charts/carTchart %>
+      </div>
+    </div>
+  </div>
+</div>
+<% include ../../partials/validation %>
+<% include ../../partials/footer %>

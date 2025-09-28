@@ -1,0 +1,120 @@
+<% include ./partials/header %>
+
+<% if (error.length > 0) { %>
+<div class="alert alert-danger"><%= error %></div>
+<% } %>
+
+<form class="mr-4 mb-4 ml-4" action="/products/new" method="POST" autocomplete="off">
+    <h1 class="display-4">Create New Lot</h1>
+    <hr class="formHr">
+    <div class="form-row">
+        <div class="form-group col-md-6 col-sm-6">
+            <label for="study">Study</label>
+            <div class="input-group">
+                <input name="study" type="text" class="form-control col-md-4" required>
+            </div>
+        </div>
+        <div class="form-group col-md-6 col-sm-6">
+            <label for="site">Site</label>
+            <div class="input-group">
+                <input name="site" type="text" class="form-control col-md-4" required>
+            </div>
+        </div>
+        <div class="form-group col-md-6 col-sm-6">
+            <label for="subj">Subject</label>
+            <div class="input-group">
+                <input name="subj" type="text" class="form-control col-md-4" required>
+            </div>
+        </div>
+        <div class="form-group col-md-6 col-sm-6">
+            <label for="lot">Lot</label>
+            <div class="input-group">
+                <input name="lot" type="text" class="form-control col-md-4" required>
+            </div>
+        </div>
+        <div class="form-group col-md-6 col-sm-6">
+            <label for="prodType">Product Type</label>
+            <div class="input-group">
+                <select id="prodType" name="prodType" class="custom-select col-md-4 col-sm-4" required>
+                    <option value="CAR-T">CAR-T</option>
+                    <option value="NK-CAR">NK-CAR</option>
+                    <option value="HPC">HPC</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group col-md-6 col-sm-6">
+            <label for="collectdate">Collect Date</label>
+            <div class="input-group">
+                <input name="collectdate" type="date" class="form-control col-md-4" required>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="collecttime">Collect Time</label>
+            <div class="input-group">
+                <input name="collecttime" type="text" class="timeInput form-control col-md-3"
+                    placeholder="HH:mm (24-hr)" pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}"
+                    maxlength="5">
+                <div class="input-group-append">
+                    <span class="input-group-text">CST/CDT</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-6 col-sm-6">
+            <label for="mfgsite">Manufacturing Site</label>
+            <div class="input-group">
+                <select name="mfgsite" class="custom-select col-md-4 col-sm-4" required>
+                    <option value="Main Hospital">Main Hospital</option>
+                    <option value="Houston Lab">Houston Lab</option>
+                    <option value="Aguadilla Lab">Aguadilla Lab</option>
+                    <option value="Louisville Lab">Lousiville Lab</option>
+                    <option value="Greensboro Lab">Greensboro Lab</option>
+                    <option value="UNC Charlotte">UNC Charlotte</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group col-md-6 col-sm-6">
+            <label for="dose">Dose Cell Number</label>
+            <div class="input-group">
+                <input name="dose" type="number" step="0.1" class="form-control col-md-3" required>
+                <div class="input-group-append">
+                    <span class="input-group-text">x10<sup>6</sup>cells</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-6 col-sm-6">
+            <label for="doseLevel">Dose Level</label>
+            <div class="input-group">
+                <input name="doseLevel" type="number" step="0.1" class="form-control col-md-3" required>
+                <div class="input-group-append">
+                    <span class="input-group-text">x10<sup>6</sup>/kg</span>
+                </div>
+            </div>
+        </div>
+        <div id="tdxcells" class="form-group col-md-6 col-sm-6">
+            <label for="tdxcells">Cells to Transduce</label>
+            <div class="input-group">
+                <input name="tdxcells" type="number" step="0.1" class="form-control col-md-3" >
+                <div class="input-group-append">
+                    <span class="input-group-text">x10<sup>6</sup></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group pl-0 col-md-4">
+        <button type="submit" class="btn btn-warning" disabled >Save</button>
+    </div>
+
+</form>
+
+<script>
+    $("#prodType").on("change", function() {
+        if ($(this).val() === "HPC") {
+            $("#tdxcells").hide();
+        } else {
+            $("#tdxcells").show();
+        }
+    }).trigger("change"); // Trigger on page load
+
+</script>
+<% include ./partials/validation %>
+<% include ./partials/footer %>

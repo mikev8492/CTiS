@@ -1,0 +1,113 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+
+    var ctx = document.getElementById('myChart');
+
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['MACS', 'PreTDX', 'TDX', 'Stop', 'Feed', 'HARV'],
+            datasets: [{
+
+                label: 'Total Viable Cells',
+
+                data: [
+                        <%= data.macs_TVC %>, 
+                        <%= data.tdx_preTVC %>, 
+                        <%= data.tdx_seedTVC %>,
+                        <%= data.stop_postTVC %>, 
+                        <%= data.fd_TVC %>,  
+                        <%= data.harv_preFormTVC %>
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                    
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 99, 132, 1)'
+                    
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Dose',
+                fill: false,
+                backgroundColor: '#1ad99c',
+                borderColor: '#1ad99c',
+                borderDash: [5, 5],
+                data: [
+                    <%= data.dose %>,
+                    <%= data.dose %>,
+                    <%= data.dose %>,
+                    <%= data.dose %>,
+                    <%= data.dose %>,
+                    <%= data.dose %>
+                ],
+            },
+            {
+                label: 'Target TDX Cells',
+                fill: false,
+                backgroundColor: '#ffc524',
+                borderColor: '#ffc524',
+                borderDash: [5, 5],
+                data: [
+                    <%= data.tdxcells %>,
+                    <%= data.tdxcells %>,
+                    <%= data.tdxcells %>,
+                    <%= data.tdxcells %>,
+                    <%= data.tdxcells %>,
+                    <%= data.tdxcells %>
+                ],
+            },
+            {
+                label: 'TDX Cells Harvested',
+                fill: false,
+                backgroundColor: '#6e0050',
+                borderColor: '#6e0050',
+                borderWidth: 1,
+                data: [null, null, null, null, null,
+                <%= data.harv_preFormTVCTrans %>
+                ],
+            }
+            ]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Process Snapshot',
+                fontSize: 18
+            },
+            tooltips:{
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            maintainAspectRatio: true,
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'e6 cells'
+                    },
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>

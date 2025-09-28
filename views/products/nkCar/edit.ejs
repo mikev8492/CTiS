@@ -1,0 +1,1444 @@
+<% include ../../partials/header %>
+
+<% if (error.length > 0) { %>
+<div class="alert alert-danger"><%= error %></div>
+<% } else if (success.length > 0) { %>
+<div class="alert alert-success"><%= success %></div>
+<% } %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="ml-4 mb-4 col-lg-6 float-left pt-3" id="lotHeader">
+      <h4 class="">Lot: <span id="lotText"><%= data.study %>-<%= data.site %>-<%= data.subj %>-<%= data.lot %></span>
+      </h4>
+      <p class=""><b>Product: </b><%= data.prodType %></p>
+      <a class="navBtn mb-2 btn btn-light" href="/products/nkCar/<%= data.pk_ID %>/edit/download">Export</a>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-lg-7">
+      <main role="main">
+        <div class="ml-4 mr-4 mb-4">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link text-secondary active" id="Macs-tab" data-toggle="tab" href="#Macs" role="tab"
+                aria-controls="Macs" aria-selected="true">MACS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" id="Tdx-tab" data-toggle="tab" href="#Tdx" role="tab"
+                aria-controls="Tdx" aria-selected="false">TDX</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" id="Stop-tab" data-toggle="tab" href="#Stop" role="tab"
+                aria-controls="Stop" aria-selected="false">STOP</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" id="Feed-tab" data-toggle="tab" href="#Feed" role="tab"
+                aria-controls="Feed" aria-selected="false">FEED</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" id="FeedD10-tab" data-toggle="tab" href="#FeedD10" role="tab"
+                aria-controls="FeedD10" aria-selected="false">D10 FEED</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" id="Harv-tab" data-toggle="tab" href="#Harv" role="tab"
+                aria-controls="Harv" aria-selected="false">HARV</a>
+            </li>
+          </ul>
+
+
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade pt-2 show active" id="Macs" role="tabpanel" aria-labelledby="Macs-tab">
+              <!-- ============================================== MACS form ===========================================================-->
+              <form action="/products/nkCar/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <h4>Selection</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="macs_procDate">Process Date</label>
+                    <input type="date" class="form-control col-md-7" name="Macs[macs_procDate]"
+                      value="<%= data.macs_procDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_procTime">Process Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[macs_procTime]"
+                      value="<%= data.macs_procTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="aph_date">Apheresis Receipt Date</label>
+                    <input type="date" class="form-control col-md-7" name="Macs[aph_date]" value="<%= data.aph_date %>"
+                      required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="aph_time">Apheresis Receipt Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[aph_time]"
+                      value="<%= data.aph_time %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="aph_CRTime">Apheresis Clean Room Arrival Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[aph_CRTime]"
+                      value="<%= data.aph_CRTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="aph_vol">Apheresis Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[aph_vol]"
+                        value="<%= data.aph_vol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="aph_TVC">Apheresis TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Macs[aph_TVC]" value="<%= data.aph_TVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_prodigyStart">Prodigy Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[macs_prodigyStart]"
+                      value="<%= data.macs_prodigyStart %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_preConc">Pre-Prodigy Count</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Macs[macs_preConc]" value="<%= data.macs_preConc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_preVia">Pre-Prodigy Viability</label>
+                    <div class="input-group">
+                      <input id="viability" type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Macs[macs_preVia]" value="<%= data.macs_preVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_preRecov">Pre-Prodigy Recovery</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_preRecov]"
+                        value="<%= data.macs_preRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_prodigyEnd">Prodigy End Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[macs_prodigyEnd]"
+                      value="<%= data.macs_prodigyEnd %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_postVol">Post-Prodigy Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_postVol]"
+                        value="<%= data.macs_postVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_postConc">Post-Prodigy Count</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_postConc]"
+                        value="<%= data.macs_postConc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_postVia">Post-Prodigy Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_postVia]"
+                        value="<%= data.macs_postVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_postRecov">Post-Prodigy Recovery</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_postRecov]"
+                        value="<%= data.macs_postRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h4>Culture</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="macs_seedConc">Culture Seed Conc.</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_seedConc]"
+                        value="<%= data.macs_seedConc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_seedVol">Culture Seed Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_seedVol]"
+                        value="<%= data.macs_seedVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_IL7">IL-7 Addition Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="Macs[macs_IL7]"
+                        value="<%= data.macs_IL7 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_IL15">IL-15 Addition Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="Macs[macs_IL15]"
+                        value="<%= data.macs_IL15 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_CD3">CD3 Addition Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="Macs[macs_CD3]"
+                        value="<%= data.macs_CD3 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_CD28">CD28 Addition Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="Macs[macs_CD28]"
+                        value="<%= data.macs_CD28 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_seedDate">Culture Incubation Date</label>
+                    <input type="date" class="form-control col-md-7" name="Macs[macs_seedDate]"
+                      value="<%= data.macs_seedDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_seedTime">Culture Incubation Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[macs_seedTime]"
+                      value="<%= data.macs_seedTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                </div>
+                <h4>Cryo (Optional)</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="macs_cryoTVC">TVC Remaining</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Macs[macs_cryoTVC]" value="<%= data.macs_cryoTVC %>">
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_cs10Vol">CS10 Addition Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Macs[macs_cs10Vol]"
+                        value="<%= data.macs_cs10Vol %>">
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_cs10Time">CS10 Addition Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[macs_cs10Time]"
+                      value="<%= data.macs_cs10Time %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_cryoBags"># of Bags Cryopreserved</label>
+                    <input type="number" min="0" step="1" class="form-control col-md-4" name="Macs[macs_cryoBags]"
+                      value="<%= data.macs_cryoBags %>">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_CRFTime">CRF Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[macs_CRFTime]"
+                      value="<%= data.macs_CRFTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_CRFEndTime">CRF End Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[macs_CRFEndTime]"
+                      value="<%= data.macs_CRFEndTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="macs_MVETime">MVE Storage Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Macs[macs_MVETime]"
+                      value="<%= data.macs_MVETime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                </div>
+                <% if(data.macs_lock === null){ %>
+                <div class="form-row">
+                  <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning">Save</button>
+                  </div>
+                  <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Macs[lock]" type="submit" value="true">LOCK</button>
+                  </div>
+                </div>
+                <% } %>
+              </form>
+              <!--===================================== /MACS form =========================================================== -->
+            </div>
+            <div class="tab-pane fade pt-2 " id="Tdx" role="tabpanel" aria-labelledby="Tdx-tab">
+              <!--====================================== TDX form ============================================================ -->
+              <form action="/products/nkCar/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <h4>Bag Coat</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="tdx_procdate">Process Date</label>
+                    <input type="date" class="form-control col-md-7" name="Tdx[tdx_procdate]"
+                      value="<%= data.tdx_procDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_procTime">Process Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Tdx[tdx_procTime]"
+                      value="<%= data.tdx_procTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_bag">TDX Bag type</label>
+                    <select name="Tdx[tdx_bag]" class="form-control col-md-6" required>
+                      <option selected disabled hidden><%= data.tdx_bag %></option>
+                      <option>118-AC</option>
+                      <option>290-AC</option>
+                      <option>750-AC</option>
+                      <option>750-AC/290-AC</option>
+                      <option>750-AC (x2)</option>
+                      <option>118-AC (x3)</option>
+                      <option>750-AC/118-AC</option>
+                      <option>290-AC (x2)</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_retronectin">Retronectin Added</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_retronectin]"
+                        value="<%= data.tdx_retronectin %>">
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_PLA">Plasma-Lyte Added</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_PLA]"
+                        value="<%= data.tdx_PLA %>">
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_CoatTime">TDX Coat Start Time Bag 1</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Tdx[tdx_CoatTime]"
+                      value="<%= data.tdx_CoatTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_CoatEndTime">TDX Coating End Time Last Bag</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Tdx[tdx_CoatEndTime]"
+                      value="<%= data.tdx_CoatEndTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_preConc">Pre-Prodigy Count</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_preConc]"
+                        value="<%= data.tdx_preConc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_preVia">Pre-Prodigy Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_preVia]"
+                        value="<%= data.tdx_preVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_preRecov">Viable Cell Recovery</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_preRecov]"
+                        value="<%= data.tdx_preRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_prodigyStart">Prodigy Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Tdx[tdx_prodigyStart]"
+                      value="<%= data.tdx_prodigyStart %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                </div>
+                <h3>Virus Addition</h3>
+                <hr class="formHr">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="tdx_VirusLot">Virus Lot</label>
+                    <select name="Tdx[tdx_VirusLot]" class="form-control col-md-6" required>
+                      <option selected disabled hidden><%= data.tdx_VirusLot %></option>
+                      <option>RETRO 1111</option>
+                      <option>RETRO 0123</option>
+                      <option>RETRO 9510</option>
+                      <option>LENTI 1564</option>
+                      <option>LENTI 9842</option>
+                      <option>LENTI 0135</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_VirusTiter">Virus Titer</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="Tdx[tdx_VirusTiter]"
+                        value="<%= data.tdx_VirusTiter %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_VirusMOIOrder">Product Order MOI</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4"
+                        name="Tdx[tdx_VirusMOIOrder]" value="<%= data.tdx_VirusMOIOrder %>" required>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_VirusMOICalc">Calculated MOI</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4"
+                        name="Tdx[tdx_VirusMOICalc]" value="<%= data.tdx_VirusMOICalc %>" required>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_VirusIFUReq">Total IFU Required</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="Tdx[tdx_VirusIFUReq]"
+                        value="<%= data.tdx_VirusIFUReq %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_VirusIFUAvail">Total IFU Available</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4"
+                        name="Tdx[tdx_VirusIFUAvail]" value="<%= data.tdx_VirusIFUAvail %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_VirusVol">Total Virus Required</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_VirusVol]"
+                        value="<%= data.tdx_VirusVol %>">
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_VirusThawTime">Virus Bag 1 Thaw Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Tdx[tdx_VirusThawTime]"
+                      value="<%= data.tdx_VirusThawTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_VirusThawEndTime">Virus Last Bag Thaw End Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Tdx[tdx_VirusThawEndTime]"
+                      value="<%= data.tdx_VirusThawEndTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_VirusVolAdded">Total Virus Added</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Tdx[tdx_VirusVolAdded]" value="<%= data.tdx_VirusVolAdded %>">
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h4>Transduction</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="tdx_prodigyEnd">Prodigy End Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Tdx[tdx_prodigyEnd]"
+                      value="<%= data.tdx_prodigyEnd %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_postConc">Post-Prodigy Count</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_postConc]"
+                        value="<%= data.tdx_postConc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_postVia">Post-Prodigy Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_postVia]"
+                        value="<%= data.tdx_postVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_postRecov">Post-Prodigy Recovery</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_postRecov]"
+                        value="<%= data.tdx_postRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_cellVol">Cell Volume for TDX</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_cellVol]"
+                        value="<%= data.tdx_cellVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_cellPerc">Cell Percent for TDX</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_cellPerc]"
+                        value="<%= data.tdx_cellPerc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_IL7">IL-7 Addition</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="Tdx[tdx_IL7]"
+                        value="<%= data.tdx_IL7 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_IL15">IL-15 Addition</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="Tdx[tdx_IL15]"
+                        value="<%= data.tdx_IL15 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_seedTVC">TDX Seed TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_seedTVC]"
+                        value="<%= data.tdx_seedTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_seedVol">TDX Seed Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Tdx[tdx_seedVol]"
+                        value="<%= data.tdx_seedVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_seedDate">Culture Incubation Date</label>
+                    <input type="date" class="form-control col-md-6" name="Tdx[tdx_seedDate]"
+                      value="<%= data.tdx_seedDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_seedTime">Culture Incubation Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Tdx[tdx_seedTime]"
+                      value="<%= data.tdx_seedTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="tdx_bagFlip">Bag Flip Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Tdx[tdx_bagFlip]"
+                      value="<%= data.tdx_bagFlip %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                </div>
+                <% if(data.tdx_lock === null){ %>
+                <div class="form-row">
+                  <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning">Save</button>
+                  </div>
+                  <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Tdx[lock]" type="submit" value="true">LOCK</button>
+                  </div>
+                </div>
+                <% } %>
+              </form>
+              <!--====================================== /TDX form ============================================================ -->
+            </div>
+            <div class="tab-pane fade pt-2" id="Stop" role="tabpanel" aria-labelledby="Stop-tab">
+              <!--====================================== stop form ============================================================ -->
+              <form action="/products/nkCar/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <h4>Pre-Prodigy</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="stop_procDate">Process Date</label>
+                    <input type="date" class="form-control col-md-7" name="Stop[stop_procDate]"
+                      value="<%= data.stop_procDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_procTime"></label>Process Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Stop[stop_procTime]"
+                      value="<%= data.stop_procTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_preVol">Pre-Prodigy Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_preVol]"
+                        value="<%= data.stop_preVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_preConc">Pre-Prodigy Count</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_preConc]"
+                        value="<%= data.stop_preConc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_preVia">Pre-Prodigy Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_preVia]"
+                        value="<%= data.stop_preVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_preTVC">Pre-Prodigy TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_preTVC]"
+                        value="<%= data.stop_preTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_preRecov">Expansion</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_preRecov]"
+                        value="<%= data.stop_preRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_prodigyStart">Prodigy Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Stop[stop_prodigyStart]"
+                      value="<%= data.stop_prodigyStart %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                </div>
+                <h4>Post-Prodigy</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="stop_prodigyEnd">Prodigy End Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Stop[stop_prodigyEnd]"
+                      value="<%= data.stop_prodigyEnd %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_postVol">Post-Prodigy Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_postVol]"
+                        value="<%= data.stop_postVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_postConc">Post-Prodigy Count</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_postConc]"
+                        value="<%= data.stop_postConc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_postVia">Post-Prodigy Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_postVia]"
+                        value="<%= data.stop_postVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_postTVC">Post-Prodigy TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_postTVC]"
+                        value="<%= data.stop_postTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_postRecov">Recovery</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_postRecov]"
+                        value="<%= data.stop_postRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_seedBag">Culture Bag</label>
+                    <select name="Stop[stop_seedBag]" class="form-control col-md-6" required>
+                      <option selected disabled hidden><%= data.stop_seedBag %></option>
+                      <option>118-AC</option>
+                      <option>290-AC</option>
+                      <option>750-AC</option>
+                      <option>750-AC/290-AC</option>
+                      <option>750-AC (x2)</option>
+                      <option>118-AC (x3)</option>
+                      <option>750-AC/118-AC</option>
+                      <option>290-AC (x2)</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_seedVol">Culture Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Stop[stop_seedVol]"
+                        value="<%= data.stop_seedVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_IL7">IL-7 Addition</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="Stop[stop_IL7]"
+                        value="<%= data.stop_IL7 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_IL15">IL-15 Addition</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="Stop[stop_IL15]"
+                        value="<%= data.stop_IL15 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_seedDate">Culture Incubation Date</label>
+                    <input type="date" class="form-control col-md-6" name="Stop[stop_seedDate]"
+                      value="<%= data.stop_seedDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="stop_seedTime">Culture Incubation Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Stop[stop_seedTime]"
+                      value="<%= data.stop_seedTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                </div>
+                <% if(data.stop_lock === null){ %>
+                <div class="form-row">
+                  <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning">Save</button>
+                  </div>
+                  <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Stop[lock]" type="submit" value="true">LOCK</button>
+                  </div>
+                </div>
+                <% } %>
+              </form>
+              <!--====================================== /stop form ============================================================ -->
+            </div>
+            <div class="tab-pane fade pt-2" id="Feed" role="tabpanel" aria-labelledby="Feed-tab">
+              <!--====================================== feed form ============================================================ -->
+              <form action="/products/nkCar/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fd_procDate">Process Date</label>
+                    <input type="date" class="form-control col-md-7" name="Feed[fd_procDate]"
+                      value="<%= data.fd_procDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_procTime">Process Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Feed[fd_procTime]"
+                      value="<%= data.fd_procTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_Conc">Feed Count</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Feed[fd_Conc]"
+                        value="<%= data.fd_Conc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_TVC">Feed TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Feed[fd_TVC]"
+                        value="<%= data.fd_TVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_Via">Feed Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Feed[fd_Via]"
+                        value="<%= data.fd_Via %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_Recov">Culture Epansion</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Feed[fd_Recov]"
+                        value="<%= data.fd_Recov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_IL7">IL-7 Addition</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="Feed[fd_IL7]"
+                        value="<%= data.fd_IL7 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_IL15">IL-15 Addition</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="Feed[fd_IL15]"
+                        value="<%= data.fd_IL15 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_seedVol">Culture Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Feed[fd_seedVol]"
+                        value="<%= data.fd_seedVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_seedDate">Culture Incubation Date</label>
+                    <input type="date" class="form-control col-md-6" name="Feed[fd_seedDate]"
+                      value="<%= data.fd_seedDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fd_seedTime">Culture Incubation Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Feed[fd_seedTime]"
+                      value="<%= data.fd_seedTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                </div>
+                <% if(data.fd_lock === null){ %>
+                <div class="form-row">
+                  <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning">Save</button>
+                  </div>
+                  <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Feed[lock]" type="submit" value="true">LOCK</button>
+                  </div>
+                </div>
+                <% } %>
+              </form>
+              <!--====================================== /feed form ============================================================ -->
+            </div>
+            <div class="tab-pane fade pt-2" id="FeedD10" role="tabpanel" aria-labelledby="FeedD10-tab">
+              <!--====================================== D10 feed form ============================================================ -->
+              <form action="/products/nkCar/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fdD10_procDate">Process Date</label>
+                    <input type="date" class="form-control col-md-7" name="FeedD10[fdD10_procDate]"
+                      value="<%= data.fdD10_procDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fdD10_procTime">Process Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="FeedD10[fdD10_procTime]"
+                      value="<%= data.fdD10_procTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fdD10_Conc">Feed Count</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="FeedD10[fdD10_Conc]"
+                        value="<%= data.fdD10_Conc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fdD10_Via">Feed Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="FeedD10[fdD10_Via]"
+                        value="<%= data.fdD10_Via %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fdD10_Recov">Culture Expansion</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="FeedD10[fdD10_Recov]"
+                        value="<%= data.fdD10_Recov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fdD10_IL7">IL-7 Addition</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="FeedD10[fdD10_IL7]"
+                        value="<%= data.fdD10_IL7 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fdD10_IL15">IL-15 Addition</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.01" class="form-control col-md-4" name="FeedD10[fdD10_IL15]"
+                        value="<%= data.fdD10_IL15 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fdD10_seedVol">Culture Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="FeedD10[fdD10_seedVol]" value="<%= data.fdD10_seedVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fdD10_seedDate">Culture Incubation Date</label>
+                    <input type="date" class="form-control col-md-7" name="FeedD10[fdD10_seedDate]"
+                      value="<%= data.fdD10_seedDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fdD10_seedTime">Culture Incubation Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="FeedD10[fdD10_seedTime]"
+                      value="<%= data.fdD10_seedTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                </div>
+                <% if(data.fdD10_lock === null){ %>
+                <div class="form-row">
+                  <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning">Save</button>
+                  </div>
+                  <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="FeedD10[lock]" type="submit" value="true">LOCK</button>
+                  </div>
+                </div>
+                <% } %>
+              </form>
+              <!--====================================== /D10 feed form ============================================================ -->
+            </div>
+            <div class="tab-pane fade pt-2" id="Harv" role="tabpanel" aria-labelledby="Harv-tab">
+              <!--====================================== harv form ============================================================ -->
+              <form action="/products/nkCar/<%= data.lot %>/?id=<%= currentLot %>&_method=PUT" method="POST"
+                autocomplete="off">
+                <h4>Initiation</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="harv_procDate">Process Date</label>
+                    <input type="date" class="form-control col-md-7" name="Harv[harv_procDate]"
+                      value="<%= data.harv_procDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_procTime">Process Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Harv[harv_procTime]"
+                      value="<%= data.harv_procTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_labelDose">Product Label Dose</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_labelDose]"
+                        value="<%= data.harv_labelDose %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_transfactor">Transduction Factor</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_transfactor]" value="<%= data.harv_transfactor %>" required>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preConc">Pre-COBE Count</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_preConc]"
+                        value="<%= data.harv_preConc %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preVia">Pre-COBE Viability</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_preVia]"
+                        value="<%= data.harv_preVia %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preTVC">Pre-COBE TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_preTVC]"
+                        value="<%= data.harv_preTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preRecov">Culture Expansion</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_preRecov]"
+                        value="<%= data.harv_preRecov %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_transTVC">Pre-COBE Transduced Cells</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_transTVC]"
+                        value="<%= data.harv_transTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_transTVCReq">Transduced Cells Required</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_transTVCReq]" value="<%= data.harv_transTVCReq %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_postQCTVC">Post-QC TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_postQCTVC]"
+                        value="<%= data.harv_postQCTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_postQCTVCTrans">Post-QC Transduced TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_postQCTVCTrans]" value="<%= data.harv_postQCTVCTrans %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h4>Concentration</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="harv_cobeSOTotal">COBE Total Superout</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_cobeSOTotal]" value="<%= data.harv_cobeSOTotal %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">g(mL)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_postVol">Post-COBE Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_postVol]"
+                        value="<%= data.harv_postVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preFormVol">Pre-Form Pooled Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_preFormVol]"
+                        value="<%= data.harv_preFormVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preFormConc1">Pre-Form Count #1</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_preFormConc1]" value="<%= data.harv_preFormConc1 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preFormVia1">Pre-Form Viability #1</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_preFormVia1]" value="<%= data.harv_preFormVia1 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preFormConc2">Pre-Form Count #2</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_preFormConc2]" value="<%= data.harv_preFormConc2 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preFormVia2">Pre-Form Viability #2</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_preFormVia2]" value="<%= data.harv_preFormVia2 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preFormConc3">Pre-Form Count #3</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_preFormConc3]" value="<%= data.harv_preFormConc3 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preFormVia3">Pre-Form Viability #3</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_preFormVia3]" value="<%= data.harv_preFormVia3 %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preFormConcAvg">Pre-Form Count Average</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_preFormConcAvg]" value="<%= data.harv_preFormConcAvg %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup>/mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preFormViaAvg">Pre-Form Viability Average</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_preFormViaAvg]" value="<%= data.harv_preFormViaAvg %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preFormTVC">Pre-Form TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_preFormTVC]"
+                        value="<%= data.harv_preFormTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_preFormTVCTrans">Pre-Form Transduced TVC</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4"
+                        name="Harv[harv_preFormTVCTrans]" value="<%= data.harv_preFormTVCTrans %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h4>Formulation</h4>
+                <hr class="formHr">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="harv_pelletVol">Formulation Pellet Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_pelletVol]"
+                        value="<%= data.harv_pelletVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_numDose">Number of Doses Available</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_numDose]"
+                        value="<%= data.harv_numDose %>" required>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_formVol">Formulation Volume</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_formVol]"
+                        value="<%= data.harv_formVol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_numBags">Number of Cryobags</label>
+                    <input type="number" class="form-control col-md-3" name="Harv[harv_numBags]"
+                      value="<%= data.harv_numBags %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_numVials">Number of Cryovials</label>
+                    <input type="number" class="form-control col-md-3" name="Harv[harv_numVials]"
+                      value="<%= data.harv_numVials %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_CS10Vol">CS-10 Volume Added</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_CS10Vol]"
+                        value="<%= data.harv_CS10Vol %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">mL</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_CS10Time">CS-10 Addition Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Harv[harv_CS10Time]"
+                      value="<%= data.harv_CS10Time %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_bagTVC">TVC per Bag</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_bagTVC]"
+                        value="<%= data.harv_bagTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_vialTVC">TVC per Vial</label>
+                    <div class="input-group">
+                      <input type="number" min="0" step="0.1" class="form-control col-md-4" name="Harv[harv_vialTVC]"
+                        value="<%= data.harv_vialTVC %>" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">x 10<sup>6</sup></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_endDate">Process End Date</label>
+                    <input type="date" class="form-control col-md-7" name="Harv[harv_endDate]"
+                      value="<%= data.harv_endDate %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_CRFTime">CRF Start Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Harv[harv_CRFTime]"
+                      value="<%= data.harv_CRFTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_CRFEndTime">CRF End Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Harv[harv_CRFEndTime]"
+                      value="<%= data.harv_CRFEndTime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="harv_MVETime">MVE Storage Time</label>
+                    <input type="text" class="timeInput form-control col-md-6" name="Harv[harv_MVETime]"
+                      value="<%= data.harv_MVETime %>" placeholder="HH:mm (24-hr)"
+                      pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" maxlength="5">
+                  </div>
+                </div>
+                <% if(data.harv_lock === null){ %>
+                <div class="form-row">
+                  <div class="submitBtn col-md-6 col-6">
+                    <button type="submit" class="btn btn-warning" disabled>Save</button>
+                  </div>
+                  <div class="lockBtn col-md-6 col-6">
+                    <button class="btn btn-danger" name="Harv[lock]" type="submit" value="true" disabled>LOCK</button>
+                  </div>
+                </div>
+                <% } %>
+              </form>
+              <!--====================================== /harv form ============================================================ -->
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <div class="col-lg-5 d-none d-lg-block">
+      <div>
+        <canvas id="myChart"></canvas>
+        <% include ../../partials/charts/NKchart %>
+      </div>
+    </div>
+  </div>
+</div>
+<% include ../../partials/validation %>
+<% include ../../partials/footer %>

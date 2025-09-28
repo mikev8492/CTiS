@@ -1,0 +1,45 @@
+<% include ./partials/header %>
+
+<% if(success.length > 0){ %>
+<div class="alert alert-success"><%= success %></div>
+<% } %>
+
+<div class="container">
+  <h1 class="display-4 text-center">Products</h1>
+  <hr>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="mt-3 mb-3 col-md-4 col-sm-6">
+      <div class="card">
+        <a href="/products/carT/" class="btn btn-lg btn-light" style="height: 3em">CAR-T</a>
+      </div>
+    </div>
+
+    <div class="mt-3 mb-3 col-md-4 col-sm-6">
+      <div class="card">
+        <a href="/products/nkCar/" class="btn btn-lg btn-light" style="height: 3em">NK-CAR</a>
+      </div>
+    </div>
+
+
+    <div class="mt-3 mb-3 col-md-4 col-sm-6">
+      <div class="card">
+        <a href="/products/HPC/" class="btn btn-lg btn-light" style="height: 3em">HPC</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- add if group undefined here -->
+  <div class="container mb-4">
+    <div class="mt-3 text-center">
+      <a href="/products/new/" class="btn btn-lg btn-warning">New Lot</a>
+    </div>
+  </div>
+
+
+
+
+<% include ./partials/footer %>
