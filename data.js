@@ -16,6 +16,5 @@ db.serialize(() => {
                 console.log("Foreign keys enabled.");
             }
         });
- });
- 
+});
 global.db = db;
