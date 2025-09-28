@@ -3,7 +3,7 @@
 // ====================================
 const express = require("express"),
       app = express(),
-      session = require("express-session"),
+      session = require("cookie-session"),
       bodyParser = require("body-parser"),
       methodOverride = require("method-override"),
       data = require("./data"),
